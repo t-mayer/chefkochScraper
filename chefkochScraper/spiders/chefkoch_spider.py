@@ -37,7 +37,11 @@ class ChefkochSpider(scrapy.Spider):
             ingredient_name = row.css('.td-right > span::text').get()
             if not ingredient_name:
                 ingredient_name = row.css('.td-right > span > a::text').get()
-            ingredient[ingredient_volume.strip()] = ingredient_name.strip()
+
+            # Save each ingredient and its quantity in a dictionary. Append to ingredient list.
+            ingredient_name = " ".join(ingredient_volume.split())
+            ingredient_name = ingredient_name.replace(' ', '')
+            ingredient[ingredient_name] = ingredient_name
             ingredients.append(ingredient)
 
         # Fill recipe item with scraped data.
