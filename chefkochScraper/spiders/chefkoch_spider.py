@@ -1,3 +1,5 @@
+from datetime import time
+
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from ..items import ChefkochScraperItem
@@ -13,7 +15,7 @@ class ChefkochSpider(CrawlSpider):
 
     # Define rules for the crawlspider.
     rules = (
-        Rule(LinkExtractor(allow="chefkoch.de/rezepte/"), callback="parse_item"),
+        Rule(LinkExtractor(allow="chefkoch.de/rezepte/"), callback="parse_item", follow=True),
     )
 
     def parse_item(self, response):
@@ -21,7 +23,6 @@ class ChefkochSpider(CrawlSpider):
         # Return back to recipe page upon 404.
         if response.status == 404:
             yield response.follow("https://www.chefkoch.de/rezepte/", callback=self.parse_item)
-
 
         # Exclude subscription-based recipies.
         exclude_plus_recipies = response.css('.plus-subscription-card').get()
@@ -54,7 +55,7 @@ class ChefkochSpider(CrawlSpider):
 
                     # Save each ingredient and its quantity in a dictionary. Append to ingredient list.
                     ingredient_volume = " ".join(ingredient_volume.split())
-                    ingredient_name = ingredient_name.replace(' ', '')
+                    ingredient_name = " ".join(ingredient_name.split())
                     ingredient[ingredient_name] = ingredient_volume
                     ingredients.append(ingredient)
 
@@ -72,7 +73,7 @@ class ChefkochSpider(CrawlSpider):
                 next_url = response.css('a[href^="https://www.chefkoch.de/rezepte/"]').get()
                 logging.info("NEXT URL: " + next_url)
 
-                # Go to next page, is there is non, return to recipe overview page.
+                # Go to next page, is there is none, return to recipe overview page.
                 if next_url is not None:
                     yield response.follow(next_url, callback=self.parse_item)
                 else:

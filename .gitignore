@@ -1,2 +1,4 @@
 chefkochScraper/__pycache__/
-chefkochScraper/spiders/__pycache__/
+chefkochScraper/spiders/__pycache__/chefkoch_spider.cpython-36.pyc
+scraping_log.txt
+scraper.json
