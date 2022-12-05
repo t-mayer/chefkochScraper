@@ -3,7 +3,7 @@ A Python Scraper that scrapes recipies from chefkoch and saves them in a json fi
 The spider used is a Crawl Spider which searches for and follows URLs to recipe pages.
 The Crawl Spider does not have a limit of crawled items and thus crawls an unlimited number of recipies. To stop press CTRL + C.
 
-# Results
+## Results
 Each recipe item is saved in a Python dictionary. Each recipe result includes following information:
 * recipe_name
 * recipe_url_id
@@ -13,8 +13,7 @@ Each recipe item is saved in a Python dictionary. Each recipe result includes fo
 * rating_stars
 * ingredients (amount and ingredient)
 
-
-CLI usage:
+## CLI usage:
 ```
 scrapy crawl chefkochScraper -o scraper.json
 ```
